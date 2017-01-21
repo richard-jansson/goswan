@@ -29,6 +29,10 @@ var (
 	White	= color.RGBA{0xff,0xff,0xff,0xff}
 )
 
+// But yeah we'll continue 0x80 is 50% of full brightness
+var Grey = color.RGBA{0x80,0x80,0x80,0x80}
+
+
 /* 
  * Fun GO fact apparently the function has to be Capitalized. 
  * i.e. Making the first letter uppercase for the function to 

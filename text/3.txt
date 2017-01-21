@@ -1,0 +1,28 @@
+While developing this I've started out with [1] as an example. For a font I use go regular. It's really nice of the go guys to include a kick ass font, that's easy to include. I don't have to worry about paths to ttf files or whatever since the data is included and saved inside of the executable. Of course looking in the library is nice as always.  
+
+Also we are using the freetype library so I had to add some extra dependencies. I hesitate to do so as I like to keep things minimalistic. However I would rather eat nothing but barbed wire for a year than to try to implement a font rendering library. [3] 
+
+I renamed the 2d package to twodimgraphics since it wouldn't allow me to use 2d. Which I find rather annoying. I am not at all happy with this name. 
+
+Also I miss the ability to write for loops like this: 
+for(int x=x0, col=0; x< width; x+=step, col++) 
+or to be able to do things like this: 
+drawString(x,y0, atoi( i++ )) 
+from C. Why is this not possible? 
+Another weird error I had was that when I had an error on a passed argument on a function which was divided up along several lines. The error messaged referenced the last line that the function spanned. With C and gcc you can do a trick while debugging that involves splitting up the newlines over several lines to make gcc tell you which argument is missing. Who do I talk to about this?
+
+<pre>	
+for i:=0;i<3;i++ {
+		var pos image.Rectangle;
+
+		pos.Min.X = (i%2)*size.Max.X
+		pos.Min.Y = (i/2)*size.Max.Y
+</pre>
+If you have difficulty comprehending this piece of code above you really ought to hit your text books. It would've been a cardinal sin to have called the DrawGrid function three times with modified parameters here. Yeah sure if you're doing something really performance critical then yes. But in all other situations your mind should operate to have as much code and as little repetition as possible. 
+
+Yeah so now there are three grids. The aim is to have provide me and you with a clear understand of what is going on. Therefore we have these grids there. Using them we will attain a proper understanding of the vector math behind the scenes. Just copying code without understanding is a useless venture. Also I feel it has a nice retro feel to it somehow. But then I'm quite arrogant I'm the first to admit. 
+
+[1]: golang.org/x/image/example/font/main.go
+[2]: https://blog.golang.org/go-fonts
+[3]: github.com/golang/freetype/example 
+[4]: golang.org/x/image/font
