@@ -1,7 +1,8 @@
-Enumerate the lines on the grid with text. 
 Create a camera / view object or whatever 
 Make the primitive function work on an image type instead of Window so that we can export the images and whatever. 
 Reorganize the packages
-Every view should become a shiny widget 
+Every view should become a shiny widget?
 Should primitives have some source of graphic context structure? I've always found this kind of reasoning kind of hard to understand. I started out doing SDL graphics programming and when I started looking at X11 code I found this concept a bit hard to grasp. What are the implications on performance? 
 Write a patch for golang.org/x/exp/shiny/screen so that NewWindowOptions can take other arguments see comment close to the structs definition
+colorscheme and graphics really should be put under the same package somehow how do you achieve this? 
+Keypress q: to close program 
