@@ -1,0 +1,5 @@
+Enumerate the lines on the grid with text. 
+Create a camera / view object or whatever 
+Make the primitive function work on an image type instead of Window so that we can export the images and whatever. 
+Reorganize the packages
+double buffering

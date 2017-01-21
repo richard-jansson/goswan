@@ -1,0 +1,21 @@
+Okay so what we've done here is to set up a basic window using the screen library. 
+
+In order to compile you'll need to set up your GOPATH variable. When you've done so you can get all the dependencies using .
+go get ./...
+after that you should be able to run the program with 
+go run goswan.go 
+
+The first objective is to create a rendering object or a camera interface. 
+
+The view type should be able to handle two forms of projections. A linear projection which will be visible. In pane A, B, C. And a projected view which will be visible in the third view. 
+
+We should be able to view and move the camera view as well. So that we can really really grasp the vector math behind all of this instead of just entering code at random without truly grasping the math intensive reasoning behind it all.  
+
+I threw my self into go programming head first and ended up with a semi-retarded package system with a colorscheme directory containing one package and a primitives package containing one file. I've not yet grasped this system entierly (sic)
+
+PITFALLS & TIPS:
+In sweden we refeer to debugging with printf as Norweigian debugging and I really don't see anything wrong with it. Especially when you are new to a language and so forth. What happens do is that when you remove a >>Norweigian<< breakpoint, your file while no longer contain a reference to the "fmt" package and it will fail to compile. To avoid this add a _ before the package in the import statement. 
+
+At the moment the primitives package imports the screen package which it really shouldn't. We would be able to save a rendering to a PNG file or a JPEG or really anything. In generall packages should have as few interdependencies as possible. But in order to get things running I've set it up in this manner for now. 
+
+Performance at this stage we are using a extremly naive way of drawing the screen. As soon as possible we ought to implement rendering using double buffering. However I find this effect quite cool as it gives us a nice retro effect. 
