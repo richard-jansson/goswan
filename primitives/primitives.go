@@ -23,35 +23,58 @@ package primitives
 
 import (
 	"image/color"
-	"golang.org/x/exp/shiny/screen"
+// Since we no longer pass a window we can remove a dependency from here 
+//	"golang.org/x/exp/shiny/screen"
 	"image"
 	// To skip imported but not used error, fmt is handy 
 	// For what I refer to as norweigan debugging
 	_"fmt")
 
-
 func swap(a,b int) (int, int) {
 	return b,a
 }
 
-func putPixel(w screen.Window,x int, y int,c color.RGBA) {
-	w.Fill(image.Rect(x,y,x+1,y+1),c,screen.Src)
+var dst *image.RGBA
+var fg color.RGBA
+
+// Moving this here makes the code to appear less cluttered I believe 
+func SetForeground(color color.RGBA){
+	fg=color
 }
 
-func HorLine(w screen.Window, x0,y0,x1 int,fg color.RGBA) {
+// set the buffer / image that we are working on
+func SetDrawable(drawable *image.RGBA){
+	dst = drawable
+}
+
+func HorLine(x0,y0,x1 int) {
 	if x0 > x1 {
 		x0,x1 = swap(x0,x1)
 	}
 	for x:=x0; x<=x1; x++ {
-		putPixel(w,x,y0,fg)
+		dst.SetRGBA(x,y0,fg)
 	}
 }
 
-func VerLine(w screen.Window, x0,y0,y1 int,fg color.RGBA) {
+func VerLine(x0,y0,y1 int) {
 	if y0 > y1 {
 		y0,y1 = swap(y0,y1)
 	}
 	for y:=y0; y<=y1; y++ {
-		putPixel(w,x0,y,fg)
+		dst.SetRGBA(x0,y,fg)
+	}
+}
+
+// NOTE:  Makes more sense to have this here. 
+// Although it's only semi primitive 
+// Also added a nice offset and the ability to have different step in the 
+// horizontal and vertical direction
+func DrawGrid(rect image.Rectangle, offset image.Point,step image.Point){
+	for y:=rect.Min.Y+offset.Y; y<=rect.Max.Y; y+=step.Y {
+		HorLine(rect.Min.X,y,rect.Max.X)
+	}
+
+	for x:=rect.Min.X+offset.X; x<=rect.Max.X; x+=step.X {
+		VerLine(x,rect.Min.Y,rect.Max.Y)
 	}
 }

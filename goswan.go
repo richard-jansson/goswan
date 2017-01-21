@@ -27,58 +27,30 @@ import (
 	"golang.org/x/mobile/event/lifecycle"
 	"golang.org/x/mobile/event/paint"
 	"golang.org/x/mobile/event/size"
-
-
-	"fmt"
 )
 
-func drawGrid(w screen.Window,bounds image.Rectangle, step int) {
-	bounds=bounds.Inset(60)
+// 640x480 for that retro feel
+// FIXME: make this configurable without having to recompile
+var width int = 640
+var height int = 480
 
-	fmt.Printf("%s\n",bounds)
+var b screen.Buffer
+var t screen.Texture
+var err error
 
-	for y:=bounds.Min.Y; y<=bounds.Max.Y; y+=step {
-		primitives.HorLine(w,bounds.Min.X,y,bounds.Max.X,colorscheme.White)
-	}
-
-	for x:=bounds.Min.X; x<=bounds.Max.X; x+=step {
-		primitives.VerLine(w,x,bounds.Min.Y,bounds.Max.Y,colorscheme.White)
-	}
-}
-
-func drawGopher(w screen.Window,bounds image.Rectangle, step int) {
-
-}
 
 func paintevent(s screen.Screen, w screen.Window,bounds image.Rectangle) {
 	w.Fill(bounds,colorscheme.Black,screen.Src)
 
+	primitives.SetForeground(colorscheme.White)
+
+	primitives.DrawGrid(bounds.Inset(60),image.Point{3,3},image.Point{8,6})
 //	drawGrid(w,bounds,36)
 //	primitives.HorLine(w,100,10,200,colorscheme.White)
 //	prim_2d.SetForeground(colorscheme.White)
 //	prim_2d.HorLine(100,10,200, colorscheme.White)
 
-	winsize:=image.Point{bounds.Max.X,bounds.Max.Y};
-
-	// 1. Create a buffer 
-	b,err:=s.NewBuffer(winsize);
-	if err != nil {
-		// FIXME: handle error
-	}
-	// NOTE: defer executes b.release() when paintevent exits (*)
-	defer b.Release();
-
-	// 2. draw on the buffer
-	// RGBA gives us an image RGBA 
-	m := b.RGBA()
-	m.SetRGBA(20,20,colorscheme.White)
-
 	// 3. Create a texture 
-	t,err:=s.NewTexture(winsize)
-	if err!= nil {
-		// FIXME handle errors 
-	}
-	defer t.Release(); // Run the "destructor" or whatever when paintevent quits (*)
 
 	// 4. Put the buffer in the texture 
 	t.Upload(image.Point{0,0},b,bounds)
@@ -89,15 +61,48 @@ func paintevent(s screen.Screen, w screen.Window,bounds image.Rectangle) {
 	w.Copy(image.Point{0,0},t,bounds,screen.Over,nil)
 }
 
+
+// Re run on resize or whatever  
+func setupDrawing(s screen.Screen){
+	winsize:=image.Point{width,height};
+
+	// Create a buffer, on this we can use image operations 
+	b,err=s.NewBuffer(winsize);
+	if err != nil {
+		// FIXME: handle error
+	}
+
+	// give our primitives package a pointer to the buffer image
+	primitives.SetDrawable(b.RGBA())
+
+	// Create the texture, this is not necesserily accessible by the CPU  
+	t,err=s.NewTexture(winsize)
+	if err!= nil {
+		// FIXME handle errors 
+	}
+}
+
+// Don't forget to cleanup
+func cleanupDrawing(){
+	b.Release();
+	t.Release();
+}
+
 func main() {
 	colorscheme.Whatever()
 
 	driver.Main(func(s screen.Screen) {
-		w, err := s.NewWindow(nil)
+		// TODO wouldn't it be fun to patch golang.org/x/exp/shiny/screen
+		// so that it takes other arguments fullscreen, title, icon, cursorHidden
+		opts := screen.NewWindowOptions{width,height}
+		w, err := s.NewWindow(&opts)
 		if err != nil {
 			return
 		}
 		defer w.Release()
+
+		setupDrawing(s)
+		defer cleanupDrawing()
 
 		var sz size.Event
 		for {

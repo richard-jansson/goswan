@@ -19,3 +19,6 @@ In sweden we refeer to debugging with printf as Norweigian debugging and I reall
 At the moment the primitives package imports the screen package which it really shouldn't. We would be able to save a rendering to a PNG file or a JPEG or really anything. In generall packages should have as few interdependencies as possible. But in order to get things running I've set it up in this manner for now. 
 
 Performance at this stage we are using a extremly naive way of drawing the screen. As soon as possible we ought to implement rendering using double buffering. However I find this effect quite cool as it gives us a nice retro effect. 
+
+Note:  I actually like the concept of having capitalisation denoting if a function is exported or not. I use a similar method when developing C programs but with using _ in front of non exposed functions and functions without them being "public". So when I find out that go does the same I'm happy. Great minds think alike. It sure beats doing something overly verbose as Java. The true genius behind this is that every normal person by default names their variables in lower case. In order to write a capitilized starting letter I actually have to think. So by default I get a private. 
+

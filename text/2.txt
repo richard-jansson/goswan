@@ -1,6 +1,16 @@
 SWAN-2 
 Intermediate step for implementing a better way of handling graphics. See [1] for a proper example of how to write this kind of code. What I'm doing here is to test out how to draw to a buffer and writing that to a texture. When we want to display it, we copy everything to the screen at once. This is a very efficient way of eliminating flicker.  
 
+In order to figure this out I had a look in the source code which is the proper way of developing code. Having a well documented source code available is an immense advantage. And this is why I love developing on open source system where the answer is always available. All you have to do is to apt-get source or do a a go get and read the source code until your head spins. But the answer will always be there. Shiny is well documented! Good Job! 
+
+So why do we have to bother with having these two structures. That is first dealing with a buffer and then copying it to a texture. The answer is the following the buffer is a image object which we can operate with the image packages function. The buffer will be stored in the ordinary RAM while the texture *might* not be accesible to the CPU but only to the GPU. 
+
+I've decided to move drawGrid to the primitives package. Which really should be renamed since we hardly could call a grid a primitive. Also it now can have an offset on it's start which makes it look nicer and the steps can be configurable separatly for x and y.  
+
+The primitives package is reconstructed so that instead of passing a Window to each function. We pass it a buffer once and the following functions will use said buffer. Same goes for the foreground color. This is a more object oriented approach and I suppose it makes the code less cluttered. 
+
+The primitives package now uses one less import which is really nice. Since every package should be as isolated as possible. For reasons that should be obvious for most competent programmers. 
 
 References
 [1] golang.org/x/exp/shiny/example/basic/main.go 
+[2] golang.org/x/exp/shiny/screen
