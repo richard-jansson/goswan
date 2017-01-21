@@ -1,0 +1,6 @@
+SWAN-2 
+Intermediate step for implementing a better way of handling graphics. See [1] for a proper example of how to write this kind of code. What I'm doing here is to test out how to draw to a buffer and writing that to a texture. When we want to display it, we copy everything to the screen at once. This is a very efficient way of eliminating flicker.  
+
+
+References
+[1] golang.org/x/exp/shiny/example/basic/main.go 

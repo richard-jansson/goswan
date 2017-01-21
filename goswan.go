@@ -28,6 +28,7 @@ import (
 	"golang.org/x/mobile/event/paint"
 	"golang.org/x/mobile/event/size"
 
+
 	"fmt"
 )
 
@@ -45,13 +46,47 @@ func drawGrid(w screen.Window,bounds image.Rectangle, step int) {
 	}
 }
 
+func drawGopher(w screen.Window,bounds image.Rectangle, step int) {
+
+}
+
 func paintevent(s screen.Screen, w screen.Window,bounds image.Rectangle) {
 	w.Fill(bounds,colorscheme.Black,screen.Src)
 
-	drawGrid(w,bounds,36)
+//	drawGrid(w,bounds,36)
 //	primitives.HorLine(w,100,10,200,colorscheme.White)
 //	prim_2d.SetForeground(colorscheme.White)
 //	prim_2d.HorLine(100,10,200, colorscheme.White)
+
+	winsize:=image.Point{bounds.Max.X,bounds.Max.Y};
+
+	// 1. Create a buffer 
+	b,err:=s.NewBuffer(winsize);
+	if err != nil {
+		// FIXME: handle error
+	}
+	// NOTE: defer executes b.release() when paintevent exits (*)
+	defer b.Release();
+
+	// 2. draw on the buffer
+	// RGBA gives us an image RGBA 
+	m := b.RGBA()
+	m.SetRGBA(20,20,colorscheme.White)
+
+	// 3. Create a texture 
+	t,err:=s.NewTexture(winsize)
+	if err!= nil {
+		// FIXME handle errors 
+	}
+	defer t.Release(); // Run the "destructor" or whatever when paintevent quits (*)
+
+	// 4. Put the buffer in the texture 
+	t.Upload(image.Point{0,0},b,bounds)
+
+	// 5. Copy the texture to the window
+	// screen.Over => reference
+	// What is the last argument?
+	w.Copy(image.Point{0,0},t,bounds,screen.Over,nil)
 }
 
 func main() {
