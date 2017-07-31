@@ -6,3 +6,5 @@ Should primitives have some source of graphic context structure? I've always fou
 Write a patch for golang.org/x/exp/shiny/screen so that NewWindowOptions can take other arguments see comment close to the structs definition
 colorscheme and graphics really should be put under the same package somehow how do you achieve this? 
 Keypress q: to close program 
+Unified configuration, Mantra (X) no constants in code evah!
+On redraw there seems to be no refresh, test by moving window
