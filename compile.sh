@@ -1,6 +1,5 @@
 #!/bin/bash
 echo go get ./...
 go get ./...
-echo go build 
-go build 
-./goswan
+echo go build and run on success
+go build && ./goswan
