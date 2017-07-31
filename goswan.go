@@ -29,9 +29,10 @@ import (
 	"golang.org/x/mobile/event/size"
 )
 
-var width int = 1280
-var height int = 960
-var title string = "GoSwan" 
+// No my screen isn't messed up like this, I'm compensationg for Unitys decorations
+var width int = 1216
+var height int = 776
+var title string = "GoSwan"
 
 var b screen.Buffer
 var t screen.Texture
