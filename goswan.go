@@ -30,7 +30,8 @@ import (
 )
 
 var width int = 1280
-var height int = 960 
+var height int = 960
+var title string = "GoSwan" 
 
 var b screen.Buffer
 var t screen.Texture
@@ -90,7 +91,7 @@ func main() {
 
 	driver.Main(func(s screen.Screen) {
 // FIXME: patch shiny so that we can set title and icon 
-		opts := screen.NewWindowOptions{width,height}
+		opts := screen.NewWindowOptions{width,height,title}
 		w, err := s.NewWindow(&opts)
 		if err != nil {
 			return
